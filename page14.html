@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Selector</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .dropdown-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dropdown-button {
+            width: 100%;
+            padding: 18px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        .dropdown-button:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102,126,234,0.2);
+        }
+
+        .dropdown-button .placeholder {
+            color: #999;
+        }
+
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 100;
+            animation: dropdownSlide 0.3s ease-out;
+        }
+
+        .dropdown-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9ff;
+        }
+
+        .dropdown-item .item-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .dropdown-item .item-number {
+            color: #667eea;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
+
+        .content-area {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .number-card {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(102,126,234,0.4);
+        }
+
+        .number-label {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .number-value {
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .qr-card {
+            text-align: center;
+            padding: 40px;
+            margin-bottom: 20px;
+        }
+
+        .qr-label {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .qr-container {
+            display: inline-block;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 16px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .qr-container img {
+            width: 250px;
+            height: 250px;
+            border-radius: 8px;
+        }
+
+        .form-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(102,126,234,0.4);
+        }
+
+        .form-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102,126,234,0.5);
+        }
+
+        .form-button:active {
+            transform: translateY(0);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+
+            .number-value {
+                font-size: 2.5rem;
+            }
+
+            .qr-container img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Form Selector</h1>
+            <p>Select an item to access its form</p>
+        </div>
+
+        <div class="card">
+            <div class="dropdown-container">
+                <label>Select Item</label>
+                <button class="dropdown-button" id="dropdownButton">
+                    <span class="placeholder" id="selectedText">Choose an item...</span>
+                    <svg class="dropdown-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="dropdown-menu hidden" id="dropdownMenu"></div>
+            </div>
+
+            <div class="content-area hidden" id="contentArea">
+                <div class="number-card">
+                    <div class="number-label">Item Number</div>
+                    <div class="number-value" id="numberValue">-</div>
+                </div>
+
+                <div class="card qr-card">
+                    <div class="qr-label">Scan to access form</div>
+                    <div class="qr-container">
+                        <img id="qrCode" src="" alt="QR Code">
+                    </div>
+                </div>
+
+                <button class="form-button" id="formButton">
+                    <span>Open Form</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 4L16 10M16 10L10 16M16 10H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let csvData = [];
+        let selectedItem = null;
+        const CSV_FILE = 'data14.csv'; // Change this to your CSV filename
+
+        // Load CSV data
+        async function loadCSV() {
+            try {
+                const response = await fetch(CSV_FILE);
+                const csvText = await response.text();
+                
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        csvData = results.data;
+                        populateDropdown();
+                    },
+                    error: function(error) {
+                        console.error('Error parsing CSV:', error);
+                        alert('Error loading CSV file. Please check the console.');
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading CSV:', error);
+                alert('Error loading CSV file. Make sure data.csv is in the same directory.');
+            }
+        }
+
+        // Populate dropdown with CSV data
+        function populateDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            dropdownMenu.innerHTML = '';
+
+            csvData.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'dropdown-item';
+                div.innerHTML = `
+                    <span class="item-name">${item.Name}</span>
+                    <span class="item-number">(${item.Number})</span>
+                `;
+                div.addEventListener('click', () => selectItem(index));
+                dropdownMenu.appendChild(div);
+            });
+        }
+
+        // Select item from dropdown
+        function selectItem(index) {
+            selectedItem = csvData[index];
+            document.getElementById('selectedText').textContent = selectedItem.Name;
+            document.getElementById('selectedText').classList.remove('placeholder');
+            closeDropdown();
+            showContent();
+        }
+
+        // Show content area
+        function showContent() {
+            const contentArea = document.getElementById('contentArea');
+            const numberValue = document.getElementById('numberValue');
+            const qrCode = document.getElementById('qrCode');
+
+            numberValue.textContent = selectedItem.Number;
+            
+            // Generate QR code
+            const encodedUrl = encodeURIComponent(selectedItem['Form URL']);
+            qrCode.src = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodedUrl}`;
+
+            contentArea.classList.remove('hidden');
+        }
+
+        // Toggle dropdown
+        const dropdownButton = document.getElementById('dropdownButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const dropdownArrow = document.querySelector('.dropdown-arrow');
+
+        dropdownButton.addEventListener('click', () => {
+            dropdownMenu.classList.toggle('hidden');
+            dropdownArrow.classList.toggle('open');
+        });
+
+        function closeDropdown() {
+            dropdownMenu.classList.add('hidden');
+            dropdownArrow.classList.remove('open');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown-container')) {
+                closeDropdown();
+            }
+        });
+
+        // Open form button
+        document.getElementById('formButton').addEventListener('click', () => {
+            if (selectedItem && selectedItem['Form URL']) {
+                window.open(selectedItem['Form URL'], '_blank');
+            }
+        });
+
+        // Load CSV on page load
+        loadCSV();
+    </script>
+</body>
+</html>
