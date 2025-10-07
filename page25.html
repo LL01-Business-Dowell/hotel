@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Selector</title>
+    <title>Dowell Cafe</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         * {
@@ -20,14 +20,16 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
+            /* max-height: 100vh; */
+            /* overflow-y: auto; */
         }
 
         .header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             animation: fadeIn 0.6s ease-out;
         }
 
@@ -46,10 +48,11 @@
         .card {
             background: white;
             border-radius: 20px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             margin-bottom: 20px;
             animation: slideUp 0.6s ease-out;
+            overflow: visible;
         }
 
         .dropdown-container {
@@ -145,7 +148,7 @@
 
         .number-card {
             text-align: center;
-            padding: 40px;
+            padding: 5px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 16px;
             margin-bottom: 20px;
@@ -163,14 +166,14 @@
 
         .number-value {
             color: white;
-            font-size: 3rem;
+            font-size: 1rem;
             font-weight: 700;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .qr-card {
             text-align: center;
-            padding: 40px;
+            padding: 20px;
             margin-bottom: 20px;
         }
 
@@ -192,8 +195,8 @@
         }
 
         .qr-container img {
-            width: 250px;
-            height: 250px;
+            width: 280px;
+            height: 280px;
             border-radius: 8px;
         }
 
@@ -284,15 +287,14 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Form Selector</h1>
-            <p>Select an item to access its form</p>
+            <h1>Dowell Cafe</h1>
         </div>
 
         <div class="card">
             <div class="dropdown-container">
-                <label>Select Item</label>
+                <label>Select</label>
                 <button class="dropdown-button" id="dropdownButton">
-                    <span class="placeholder" id="selectedText">Choose an item...</span>
+                    <span class="placeholder" id="selectedText">Select an option...</span>
                     <svg class="dropdown-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -302,19 +304,18 @@
 
             <div class="content-area hidden" id="contentArea">
                 <div class="number-card">
-                    <div class="number-label">Item Number</div>
                     <div class="number-value" id="numberValue">-</div>
                 </div>
 
                 <div class="card qr-card">
-                    <div class="qr-label">Scan to access form</div>
+                    <div class="qr-label">Scan to view details</div>
                     <div class="qr-container">
                         <img id="qrCode" src="" alt="QR Code">
                     </div>
                 </div>
 
                 <button class="form-button" id="formButton">
-                    <span>Open Form</span>
+                    <span>Open</span>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M10 4L16 10M16 10L10 16M16 10H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
