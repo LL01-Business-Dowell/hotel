@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Selector</title>
+    <title>Dowell Cafe</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         * {
@@ -284,15 +284,14 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Form Selector</h1>
-            <p>Select an item to access its form</p>
+            <h1>Dowell Form</h1>
         </div>
 
         <div class="card">
             <div class="dropdown-container">
-                <label>Select Item</label>
+                <label>Select</label>
                 <button class="dropdown-button" id="dropdownButton">
-                    <span class="placeholder" id="selectedText">Choose an item...</span>
+                    <span class="placeholder" id="selectedText">Select an option...</span>
                     <svg class="dropdown-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -302,19 +301,18 @@
 
             <div class="content-area hidden" id="contentArea">
                 <div class="number-card">
-                    <div class="number-label">Item Number</div>
                     <div class="number-value" id="numberValue">-</div>
                 </div>
 
                 <div class="card qr-card">
-                    <div class="qr-label">Scan to access form</div>
+                    <div class="qr-label">Scan to view details</div>
                     <div class="qr-container">
                         <img id="qrCode" src="" alt="QR Code">
                     </div>
                 </div>
 
                 <button class="form-button" id="formButton">
-                    <span>Open Form</span>
+                    <span>Open</span>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M10 4L16 10M16 10L10 16M16 10H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
